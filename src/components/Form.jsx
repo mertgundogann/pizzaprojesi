@@ -1,48 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './form.css';
 
 const Formdosyasi = () => {
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
-  const [totalPrice, setTotalPrice] = useState(85.50); 
+  const [totalPrice, setTotalPrice] = useState(85.50);
   const [selectedBoyut, setSelectedBoyut] = useState("");
   const [selectedHamur, setSelectedHamur] = useState("");
-  const [siparisNotu, setSiparisNotu] = useState("");  
-  const [isim, setIsim] = useState("");  
+  const [siparisNotu, setSiparisNotu] = useState("");
+  const [isim, setIsim] = useState("");
+  const [errors, setErrors] = useState({});
+  const [formSubmitted, setFormSubmitted] = useState(false); 
 
   const malzemeler = [
-    "Mantar", "Sosis", "Zeytin", "Keçi Peyniri", "Sünger", 
-    "Yumurtalı", "Domates", "Biber", "Soğan", "Et", 
-    "Tavuk", "Limon", "Bacon", "Mozzarella"
+    { id: 1, name: "Mantar" },
+    { id: 2, name: "Sosis" },
+    { id: 3, name: "Zeytin" },
+    { id: 4, name: "Keçi Peyniri" },
+    { id: 5, name: "Sünger" },
+    { id: 6, name: "Yumurtalı" },
+    { id: 7, name: "Domates" },
+    { id: 8, name: "Biber" },
+    { id: 9, name: "Soğan" },
+    { id: 10, name: "Et" },
+    { id: 11, name: "Tavuk" },
+    { id: 12, name: "Limon" },
+    { id: 13, name: "Bacon" },
+    { id: 14, name: "Mozzarella" }
   ];
+  
+
+  useEffect(() => {
+    validateForm();
+  }, [selectedBoyut, selectedHamur, selectedMalzemeler, isim]);
 
   const handleMalzemeChange = (malzeme, isChecked) => {
-    const updatedMalzemeler = {
-      ...selectedMalzemeler,
-      [malzeme]: isChecked,
-    };
-
+    const updatedMalzemeler = { ...selectedMalzemeler, [malzeme]: isChecked };
     setSelectedMalzemeler(updatedMalzemeler);
-    
+
     const malzemeFiyat = 5; 
     const fiyatDegisimi = isChecked ? malzemeFiyat : -malzemeFiyat;
     setTotalPrice((prevPrice) => prevPrice + fiyatDegisimi);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert('Siparişiniz başarıyla gönderildi!');
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!isim) newErrors.isim = "İsim boş bırakılamaz!";
+    if (!selectedBoyut) newErrors.boyut = "Boyut seçimi yapılmadı!";
+    if (!selectedHamur) newErrors.hamur = "Hamur seçimi yapılmadı!";
+
+    const selectedMalzemeCount = Object.values(selectedMalzemeler).filter(Boolean).length;
+    if (selectedMalzemeCount < 4 || selectedMalzemeCount > 10) {
+      newErrors.malzeme = "4 ile 10 arasında malzeme seçimi yapılmalıdır!";
+    }
+
+    setErrors(newErrors);
   };
 
   const selectedCount = Object.values(selectedMalzemeler).filter(Boolean).length;
 
-   const isDisabled = !isim || isim.length < 3 || !selectedBoyut || !selectedHamur || selectedCount < 4 || selectedCount > 10;
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (Object.keys(errors).length === 0 && selectedCount >= 4 && selectedCount <= 10) {
+      setFormSubmitted(true); 
+    }
+  };
 
   return (
     <main>
       <h3 className="mainh3">Position Absolute Acı Pizza</h3>
-      <p>85.50 TL</p>
-      <p>Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre.Pizza,domates,peynir ve genellikle çeşitli diğer malzemelerle kaplanmış,daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen,genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.. Küçük bir pizzaya bazen pizzetta denir.</p>
+      <p>{totalPrice} TL</p>
+      <p>Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre...</p>
       <form className='mainform' onSubmit={handleSubmit}>
         <div className="boyutvehamur">
           <div className="boyut">
@@ -77,6 +105,7 @@ const Formdosyasi = () => {
               />
               Büyük
             </label>
+            {errors.boyut && <div className="error">{errors.boyut}</div>}
           </div>
 
           <div className="hamur">
@@ -87,23 +116,23 @@ const Formdosyasi = () => {
               <option value="Kalın">Kalın</option>
               <option value="Normal">Normal</option>
             </select>
+            {errors.hamur && <div className="error">{errors.hamur}</div>}
           </div>
         </div>
 
         <div className="malzemeler">
-          {malzemeler.map((malzeme) => (
-            <div key={malzeme}>
-              <label>
-                <input
-                  type="checkbox"
-                  onChange={(e) =>
-                    handleMalzemeChange(malzeme, e.target.checked)
-                  }
-                />
-                {malzeme}
-              </label>
+        {malzemeler.map((malzeme) => (
+  <div key={malzeme.id}>
+    <label>
+      <input
+        type="checkbox"
+        onChange={(e) => handleMalzemeChange(malzeme.name, e.target.checked)}
+      />
+      {malzeme.name}
+    </label>
             </div>
           ))}
+          {errors.malzeme && <div className="error">{errors.malzeme}</div>}
         </div>
 
         <div>
@@ -118,6 +147,7 @@ const Formdosyasi = () => {
             required
             minLength="3"
           />
+          {errors.isim && <div className="error">{errors.isim}</div>}
         </div>
 
         <div className="siparisNot">
@@ -134,20 +164,23 @@ const Formdosyasi = () => {
 
         <div className="order-section">
           <textarea
-            value={`Toplam Fiyat: ${totalPrice} TL\nSeçilen Malzemelerin Fiyatı: ${selectedCount * 5} TL`}
+            value={`Toplam Fiyat: ${totalPrice} TL\nSeçilen Malzemelerin Fiyatı: ${(selectedCount * 5)} TL`}
             readOnly
-            rows="2"
+            rows="3"
             cols="30"
           />
           <button
             className="formbutton"
             type="submit"
-            disabled={isDisabled}
+            disabled={Object.keys(errors).length > 0 || selectedCount < 4 || selectedCount > 10 || isim.length < 3}
           >
             Siparişi Gönder
           </button>
         </div>
       </form>
+
+      
+      {formSubmitted && <div className="success-message">Form başarıyla gönderildi!</div>}
     </main>
   );
 };
