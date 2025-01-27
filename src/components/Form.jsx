@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './form.css';
+import MalzemeListesi from "./malzemeler";
 
 const Formdosyasi = () => {
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
@@ -9,25 +10,7 @@ const Formdosyasi = () => {
   const [siparisNotu, setSiparisNotu] = useState("");
   const [isim, setIsim] = useState("");
   const [errors, setErrors] = useState({});
-  const [formSubmitted, setFormSubmitted] = useState(false); 
-
-  const malzemeler = [
-    { id: 1, name: "Mantar" },
-    { id: 2, name: "Sosis" },
-    { id: 3, name: "Zeytin" },
-    { id: 4, name: "Keçi Peyniri" },
-    { id: 5, name: "Sünger" },
-    { id: 6, name: "Yumurtalı" },
-    { id: 7, name: "Domates" },
-    { id: 8, name: "Biber" },
-    { id: 9, name: "Soğan" },
-    { id: 10, name: "Et" },
-    { id: 11, name: "Tavuk" },
-    { id: 12, name: "Limon" },
-    { id: 13, name: "Bacon" },
-    { id: 14, name: "Mozzarella" }
-  ];
-  
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     validateForm();
@@ -37,7 +20,7 @@ const Formdosyasi = () => {
     const updatedMalzemeler = { ...selectedMalzemeler, [malzeme]: isChecked };
     setSelectedMalzemeler(updatedMalzemeler);
 
-    const malzemeFiyat = 5; 
+    const malzemeFiyat = 5;
     const fiyatDegisimi = isChecked ? malzemeFiyat : -malzemeFiyat;
     setTotalPrice((prevPrice) => prevPrice + fiyatDegisimi);
   };
@@ -62,7 +45,7 @@ const Formdosyasi = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (Object.keys(errors).length === 0 && selectedCount >= 4 && selectedCount <= 10) {
-      setFormSubmitted(true); 
+      setFormSubmitted(true);
     }
   };
 
@@ -120,20 +103,9 @@ const Formdosyasi = () => {
           </div>
         </div>
 
-        <div className="malzemeler">
-        {malzemeler.map((malzeme) => (
-  <div key={malzeme.id}>
-    <label>
-      <input
-        type="checkbox"
-        onChange={(e) => handleMalzemeChange(malzeme.name, e.target.checked)}
-      />
-      {malzeme.name}
-    </label>
-            </div>
-          ))}
-          {errors.malzeme && <div className="error">{errors.malzeme}</div>}
-        </div>
+        
+        <MalzemeListesi handleMalzemeChange={handleMalzemeChange} />
+        {errors.malzeme && <div className="error">{errors.malzeme}</div>}
 
         <div>
           <label htmlFor="isim">İsim:</label>
@@ -179,7 +151,6 @@ const Formdosyasi = () => {
         </div>
       </form>
 
-      
       {formSubmitted && <div className="success-message">Form başarıyla gönderildi!</div>}
     </main>
   );
