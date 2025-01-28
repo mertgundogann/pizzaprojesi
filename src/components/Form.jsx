@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import './form.css';
 import MalzemeListesi from "./malzemeler";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Formdosyasi = () => {
+  const history = useHistory();
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
-  const [totalPrice, setTotalPrice] = useState(85.50);
+  const [totalPrice, setTotalPrice] = useState(85.50);  
+  const [orderCount, setOrderCount] = useState(1); 
   const [selectedBoyut, setSelectedBoyut] = useState("");
   const [selectedHamur, setSelectedHamur] = useState("");
   const [siparisNotu, setSiparisNotu] = useState("");
@@ -44,20 +48,59 @@ const Formdosyasi = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    
     if (Object.keys(errors).length === 0 && selectedCount >= 4 && selectedCount <= 10) {
-      setFormSubmitted(true);
+      
+      const pizzaData = {
+        isim,
+        boyut: selectedBoyut,
+        hamur: selectedHamur,
+        malzemeler: Object.keys(selectedMalzemeler).filter(malzeme => selectedMalzemeler[malzeme]),
+        siparisNotu,
+        toplamFiyat: totalPrice * orderCount, 
+      };
+
+      
+      axios.post('https://reqres.in/api/pizza', pizzaData)
+        .then((response) => {
+          console.log('Sipariş Başarılı:', response.data);
+          setFormSubmitted(true); 
+          history.push('/success');
+        })
+        .catch((error) => {
+          console.error('Hata:', error);
+        });
+    }
+  };
+
+  const addOrder = () => {
+    setOrderCount(orderCount + 1);  
+    setTotalPrice(prevPrice => prevPrice + 85.50); 
+  };
+
+  const removeOrder = () => {
+    if (orderCount > 1) {
+      setOrderCount(orderCount - 1);  
+      setTotalPrice(prevPrice => prevPrice - 85.50); 
     }
   };
 
   return (
     <main>
-      <h3 className="mainh3">Position Absolute Acı Pizza</h3>
-      <span>{totalPrice} TL</span>
-      <p>Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre.Pizza,domates,peynir ve genellikle çeşitli diğer malzemelerle kaplanmış,daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen,genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.. Küçük bir pizzaya bazen pizzetta denir.</p>
+      <div className="ustKisim">
+        <h3 className="mainh3 black">Position Absolute Acı Pizza</h3>
+        <div className="spans">
+          <span className="fiyat black">85.50₺</span>
+          <span className="skor">4.9</span>
+          <span className="sayi">(200)</span>
+        </div>
+        <p className="mainp">Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.. Küçük bir pizzaya bazen pizzetta denir.</p>
+      </div>
       <form className='mainform' onSubmit={handleSubmit}>
         <div className="boyutvehamur">
           <div className="boyut">
-            <h3>Boyut seç</h3>
+            <h4 className="black">Boyut seç</h4>
             <label>
               <input
                 type="radio"
@@ -66,7 +109,7 @@ const Formdosyasi = () => {
                 checked={selectedBoyut === "Küçük"}
                 onChange={(e) => setSelectedBoyut(e.target.value)}
               />
-              Küçük
+              <span>  Küçük</span>
             </label>
             <label>
               <input
@@ -76,7 +119,7 @@ const Formdosyasi = () => {
                 checked={selectedBoyut === "Orta"}
                 onChange={(e) => setSelectedBoyut(e.target.value)}
               />
-              Orta
+              <span>  Orta</span>
             </label>
             <label>
               <input
@@ -86,14 +129,14 @@ const Formdosyasi = () => {
                 checked={selectedBoyut === "Büyük"}
                 onChange={(e) => setSelectedBoyut(e.target.value)}
               />
-              Büyük
+              <span>  Büyük</span>
             </label>
             {errors.boyut && <div className="error">{errors.boyut}</div>}
           </div>
-
+            
           <div className="hamur">
-            <h3>Hamur Seç</h3>
-            <select value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
+            <h4 className="black">Hamur Seç</h4>
+            <select  className='hamuroptions'value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
               <option value="">Hamur Seçiniz</option>
               <option value="İnce">İnce</option>
               <option value="Kalın">Kalın</option>
@@ -102,14 +145,15 @@ const Formdosyasi = () => {
             {errors.hamur && <div className="error">{errors.hamur}</div>}
           </div>
         </div>
-
+        <hr></hr>
         <div className="malzemediv">
-        <h3>Ek malzemeler</h3>
-        <MalzemeListesi handleMalzemeChange={handleMalzemeChange} />
-        {errors.malzeme && <div className="error">{errors.malzeme}</div>}
+          <h3 className="black">Ek malzemeler</h3>
+          <MalzemeListesi handleMalzemeChange={handleMalzemeChange} className='malzemeler' />
+          {errors.malzeme && <div className="error">{errors.malzeme}</div>}
         </div>
-        <div>
-          <label htmlFor="isim">İsim:</label>
+        <hr></hr>
+        <div className="isimkismi">
+          <label htmlFor="isim" className="black isimlabel"><h4>İsim:</h4>  </label>
           <input
             type="text"
             id="isim"
@@ -122,33 +166,42 @@ const Formdosyasi = () => {
           />
           {errors.isim && <div className="error">{errors.isim}</div>}
         </div>
-
+        <hr></hr>
         <div className="siparisNot">
-          <label htmlFor="not">Sipariş Notu:</label>
+          <label htmlFor="not" className="black"><h4>Sipariş Notu:</h4></label>
           <textarea
             id="not"
             name="not"
             placeholder="Siparişinize eklemek istediğiniz bir not var mı?"
-            rows="3"
+            rows="1"
             value={siparisNotu}
             onChange={(e) => setSiparisNotu(e.target.value)}
           />
         </div>
 
         <div className="order-section">
-          <textarea
-            value={`Toplam Fiyat: ${totalPrice} TL\nSeçilen Malzemelerin Fiyatı: ${(selectedCount * 5)} TL`}
-            readOnly
-            rows="3"
-            cols="30"
-          />
-          <button
-            className="formbutton"
-            type="submit"
-            disabled={Object.keys(errors).length > 0 || selectedCount < 4 || selectedCount > 10 || isim.length < 3}
-          >
-            Siparişi Gönder
-          </button>
+          <div className="artieksi">
+            <button type="button" onClick={addOrder}>+</button>
+            <h4>{orderCount}</h4>
+            <button type="button" onClick={removeOrder}>-</button>
+          </div>
+          
+          <div className="ozetvebuton">
+            <textarea
+              className="ordertext"
+              value={`Sipariş Toplamı\nSeçimler : ${(selectedCount * 5)}₺\nToplam Fiyat: ${totalPrice}₺\n(Sipariş Adeti: ${orderCount})`}
+              readOnly
+              rows="3"
+              cols="30"
+            />
+            <button
+              className="formbutton"
+              type="submit"
+              disabled={Object.keys(errors).length > 0 || selectedCount < 4 || selectedCount > 10 || isim.length < 3}
+            >
+              SİPARİŞ VER
+            </button>
+          </div>
         </div>
       </form>
 
