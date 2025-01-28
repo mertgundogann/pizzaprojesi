@@ -3,3 +3,39 @@
   font-size: 12px;
   margin-top: 5px;
 }
+
+main {
+  text-align: center;
+  
+}
+
+main p{
+  width: 30%;
+  margin: 0 auto;
+}
+.boyutvehamur{
+  display: flex;
+  justify-content: center;
+  gap: 15rem;
+}
+.boyut label{
+  display: flex;
+  margin: 2px;
+  gap: 1rem;
+  padding-top: 0.7rem;
+}
+.malzemeler {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 sütunlu düzen */
+  gap: 10px; /* Küçük bir boşluk */
+  justify-items: stretch; /* Her öğe eşit genişlikte */
+}
+
+.malzemeler label {
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+  display: block; /* Etiketi bloğa çeviriyoruz */
+}
+
+

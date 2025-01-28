@@ -52,8 +52,8 @@ const Formdosyasi = () => {
   return (
     <main>
       <h3 className="mainh3">Position Absolute Acı Pizza</h3>
-      <p>{totalPrice} TL</p>
-      <p>Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre...</p>
+      <span>{totalPrice} TL</span>
+      <p>Frontend Dev olarak hala position absolute kullanıyorsan bu çok acı pizza tam sana göre.Pizza,domates,peynir ve genellikle çeşitli diğer malzemelerle kaplanmış,daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen,genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir.. Küçük bir pizzaya bazen pizzetta denir.</p>
       <form className='mainform' onSubmit={handleSubmit}>
         <div className="boyutvehamur">
           <div className="boyut">
@@ -103,10 +103,11 @@ const Formdosyasi = () => {
           </div>
         </div>
 
-        
+        <div className="malzemediv">
+        <h3>Ek malzemeler</h3>
         <MalzemeListesi handleMalzemeChange={handleMalzemeChange} />
         {errors.malzeme && <div className="error">{errors.malzeme}</div>}
-
+        </div>
         <div>
           <label htmlFor="isim">İsim:</label>
           <input
