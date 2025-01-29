@@ -211,3 +211,14 @@ left: 18rem;
 .hamuroptions{
   margin-top: 1rem;
 }
+
+@media screen and (max-width: 768px) {
+ .ustKisim{
+  margin-top: 250px;
+  display: flex;
+  flex-direction: column;
+ }
+ .ustKisim p{
+  width: 50%;
+ }
+}
