@@ -5,7 +5,7 @@ import MalzemeListesi from "./malzemeler";
 import { useHistory } from "react-router-dom";
 import Header from "./Header";
 
-const Formdosyasi = () => {
+const Formdosyasi = ({ onFormSubmit }) => {  
   const history = useHistory();
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
   const [totalPrice, setTotalPrice] = useState(85.50);
@@ -59,21 +59,19 @@ const Formdosyasi = () => {
         siparisNotu,
         toplamFiyat: totalPrice * orderCount,
       };
-
-
       axios.post('https://reqres.in/api/pizza', pizzaData)
-        .then((response) => {
-          console.log('Sipariş Başarılı:', response.data);
-          setFormSubmitted(true);
-          history.push({
-            pathname: '/success',
-            state: { orderData: response.data }
-          });
-        })
-        .catch((error) => {
-          console.error('Hata:', error);
-        });
+      .then(response => {
+        console.log("Gelen Yanıt:", response.data);
+      })
+      .catch(error => {
+        console.error("Hata:", error);
+      });
+     
+      onFormSubmit(pizzaData);  
 
+      
+      setFormSubmitted(true);
+      history.push('/success');
     }
   };
 
@@ -90,8 +88,8 @@ const Formdosyasi = () => {
   };
 
   return (
-    
     <main>
+      <Header></Header>
       <Header></Header>
       <div className="ustKisim">
         <h3 className="mainh3 black">Position Absolute Acı Pizza</h3>

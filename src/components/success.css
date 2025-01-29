@@ -1,21 +1,27 @@
-body{
-    background-color: #CE2829;
+
+.success-page {
+  background-color: #CE2829;  
+  min-height: 100vh;           
+  margin: 0;                   
+  padding: 0;                 
+   
 }
-.successmain{
-  margin-top: 4rem;
-    text-align: center;
-}
+
 .gelenBilgiler{
-margin-top: 5rem;
+margin-top: 15rem;
 font-size: 20px;
 color: #FAF7F2;
-font-family:sans-serif
+font-family:sans-serif;
+text-align: center;
 }
 .toplamFiyat{
-  margin: 5rem;
-  font-size: 20px;
+margin: 5rem;
+font-size: 20px;
 }
 .toplamFiyat span{
-  font-size: 25px;
-  color: #FDC913;
+font-size: 25px;
+color: #FDC913;
+}
+.successUst{
+  text-align: center;
 }
