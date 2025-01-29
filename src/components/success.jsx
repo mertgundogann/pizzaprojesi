@@ -12,6 +12,16 @@ const Success = () => {
             <h1>SİPARİŞİNİZ ALINDI!</h1>
             </div>
             </div>
+            <div className='cards'>
+            <img src="/images\iteration-2-images\icons\1.svg" alt="" />
+            <img src="images\iteration-2-images\icons\2.svg" alt="" />
+            <img src="" alt="" />
+            <img src="" alt="" />
+            <img src="" alt="" />
+            <img src="" alt="" />
+
+
+            </div>
         </section>
 
     );

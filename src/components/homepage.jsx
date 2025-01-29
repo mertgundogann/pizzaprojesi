@@ -17,6 +17,20 @@ const Homepage = () =>{
             <h1>PİZZA, DOYURUR</h1>
             <button onClick={() => history.push('/siparis')}>ACIKTIM</button>
             </div>
+            <div className='cards'>
+            <img src="/images\iteration-2-images\icons\1.svg" alt="" />
+            <span>YENİ! Kore</span>
+            <img src="images\iteration-2-images\icons\2.svg" alt="" />
+            <span>Pizza</span>
+            <img src="images\iteration-2-images\icons\3.svg" alt="" />
+            <span>Burger</span>
+            <img src="images\iteration-2-images\icons\4.svg" alt="" />
+            <span>Kızartmalar</span>
+            <img src="images\iteration-2-images\icons\5.svg" alt="" />
+            <span>Fast Food</span>
+            <img src="images\iteration-2-images\icons\6.svg" alt="" />
+            <span>Gazlı İçecek</span>
+            </div>
         </section>
 
 
