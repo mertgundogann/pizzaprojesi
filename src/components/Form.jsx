@@ -139,7 +139,7 @@ const Formdosyasi = ({ onFormSubmit }) => {
 
           <div className="hamur">
             <h4 className="black">Hamur Seç</h4>
-            <select className='hamuroptions' value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
+            <select name='hamur' className='hamuroptions' value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
               <option value="">Hamur Seçiniz</option>
               <option value="İnce">İnce</option>
               <option value="Kalın">Kalın</option>
