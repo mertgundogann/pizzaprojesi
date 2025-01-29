@@ -4,7 +4,7 @@ import './form.css';
 import MalzemeListesi from "./malzemeler";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Formdosyasi = () => {
+const Formdosyasi = ({ setPizzaData }) => {  // setPizzaData fonksiyonu props olarak alınıyor
   const history = useHistory();
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
   const [totalPrice, setTotalPrice] = useState(85.50);  
@@ -49,9 +49,7 @@ const Formdosyasi = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    
     if (Object.keys(errors).length === 0 && selectedCount >= 4 && selectedCount <= 10) {
-      
       const pizzaData = {
         isim,
         boyut: selectedBoyut,
@@ -61,11 +59,10 @@ const Formdosyasi = () => {
         toplamFiyat: totalPrice * orderCount, 
       };
 
-      
       axios.post('https://reqres.in/api/pizza', pizzaData)
         .then((response) => {
           console.log('Sipariş Başarılı:', response.data);
-          setFormSubmitted(true); 
+          setPizzaData(pizzaData);  // Veriyi burada gönderiyoruz
           history.push('/success');
         })
         .catch((error) => {
@@ -136,7 +133,7 @@ const Formdosyasi = () => {
             
           <div className="hamur">
             <h4 className="black">Hamur Seç</h4>
-            <select  className='hamuroptions'value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
+            <select  className='hamuroptions' value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
               <option value="">Hamur Seçiniz</option>
               <option value="İnce">İnce</option>
               <option value="Kalın">Kalın</option>
