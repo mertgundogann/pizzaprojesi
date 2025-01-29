@@ -1,58 +1,21 @@
-
-.mainsuccess {
-    
-}
-.satisfy {
-  font-family: "Satisfy", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.quattrocento-regular {
-  font-family: "Quattrocento", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.quattrocento-bold {
-  font-family: "Quattrocento", serif;
-  font-weight: 700;
-  font-style: normal;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: "Roboto Condensed", serif;
-  font-optical-sizing: auto;
-  font-weight: weight;
-  font-style: normal;
-  background-color: #CE2829;
-  }
-  #main h1{
-color: #FAF7F2;
-font-size: 4.5rem;
-  }
-  .successdiv{
-    text-align: center;
-    margin-top: 5rem;
-  }
-  .successdiv button{
-    background-color: #FDC913;
-    margin-top: 2rem;
-    font-size: 1.2rem;
-    border-radius: 25px;
-    padding: 1rem 4rem;
-    font-weight: bold;
-  }
-  .successdiv  h1{
-    margin-top: 2rem;
-  }
-  .basliklar{
-    margin-top: 10%;
-  }
-  .successdiv{
+body{
     background-color: #CE2829;
-  }
-  .succeslogo {
-    margin-top: 3rem;
-  }
+}
+.successmain{
+  margin-top: 4rem;
+    text-align: center;
+}
+.gelenBilgiler{
+margin-top: 5rem;
+font-size: 20px;
+color: #FAF7F2;
+font-family:sans-serif
+}
+.toplamFiyat{
+  margin: 5rem;
+  font-size: 20px;
+}
+.toplamFiyat span{
+  font-size: 25px;
+  color: #FDC913;
+}

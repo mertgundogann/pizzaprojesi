@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import './form.css';
 import MalzemeListesi from "./malzemeler";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
+import Header from "./Header";
 
-const Formdosyasi = ({ setPizzaData }) => {  // setPizzaData fonksiyonu props olarak alınıyor
+const Formdosyasi = () => {
   const history = useHistory();
   const [selectedMalzemeler, setSelectedMalzemeler] = useState({});
-  const [totalPrice, setTotalPrice] = useState(85.50);  
-  const [orderCount, setOrderCount] = useState(1); 
+  const [totalPrice, setTotalPrice] = useState(85.50);
+  const [orderCount, setOrderCount] = useState(1);
   const [selectedBoyut, setSelectedBoyut] = useState("");
   const [selectedHamur, setSelectedHamur] = useState("");
   const [siparisNotu, setSiparisNotu] = useState("");
@@ -56,35 +57,42 @@ const Formdosyasi = ({ setPizzaData }) => {  // setPizzaData fonksiyonu props ol
         hamur: selectedHamur,
         malzemeler: Object.keys(selectedMalzemeler).filter(malzeme => selectedMalzemeler[malzeme]),
         siparisNotu,
-        toplamFiyat: totalPrice * orderCount, 
+        toplamFiyat: totalPrice * orderCount,
       };
+
 
       axios.post('https://reqres.in/api/pizza', pizzaData)
         .then((response) => {
           console.log('Sipariş Başarılı:', response.data);
-          setPizzaData(pizzaData);  // Veriyi burada gönderiyoruz
-          history.push('/success');
+          setFormSubmitted(true);
+          history.push({
+            pathname: '/success',
+            state: { orderData: response.data }
+          });
         })
         .catch((error) => {
           console.error('Hata:', error);
         });
+
     }
   };
 
   const addOrder = () => {
-    setOrderCount(orderCount + 1);  
-    setTotalPrice(prevPrice => prevPrice + 85.50); 
+    setOrderCount(orderCount + 1);
+    setTotalPrice(prevPrice => prevPrice + 85.50);
   };
 
   const removeOrder = () => {
     if (orderCount > 1) {
-      setOrderCount(orderCount - 1);  
-      setTotalPrice(prevPrice => prevPrice - 85.50); 
+      setOrderCount(orderCount - 1);
+      setTotalPrice(prevPrice => prevPrice - 85.50);
     }
   };
 
   return (
+    
     <main>
+      <Header></Header>
       <div className="ustKisim">
         <h3 className="mainh3 black">Position Absolute Acı Pizza</h3>
         <div className="spans">
@@ -130,10 +138,10 @@ const Formdosyasi = ({ setPizzaData }) => {  // setPizzaData fonksiyonu props ol
             </label>
             {errors.boyut && <div className="error">{errors.boyut}</div>}
           </div>
-            
+
           <div className="hamur">
             <h4 className="black">Hamur Seç</h4>
-            <select  className='hamuroptions' value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
+            <select className='hamuroptions' value={selectedHamur} onChange={(e) => setSelectedHamur(e.target.value)}>
               <option value="">Hamur Seçiniz</option>
               <option value="İnce">İnce</option>
               <option value="Kalın">Kalın</option>
@@ -178,11 +186,12 @@ const Formdosyasi = ({ setPizzaData }) => {  // setPizzaData fonksiyonu props ol
 
         <div className="order-section">
           <div className="artieksi">
-            <button type="button" onClick={addOrder}>+</button>
+          <button type="button" onClick={removeOrder}>-</button>
             <h4>{orderCount}</h4>
-            <button type="button" onClick={removeOrder}>-</button>
+            
+            <button type="button" onClick={addOrder}>+</button>
           </div>
-          
+
           <div className="ozetvebuton">
             <textarea
               className="ordertext"

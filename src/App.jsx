@@ -1,22 +1,16 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import SiparisFormu from './components/siparisformu'; // Form bileşeni
-import Success from './components/success'; // Başarı bileşeni
-import Homepage from './components/homepage'; // Anasayfa bileşeni
-import { useState } from 'react';
+import SiparisFormu from './components/Form'; 
+import Success from './components/success';
+import Homepage from './components/homepage';
 
 function App() {
-  const [pizzaData, setPizzaData] = useState(null); // Veriyi burada saklıyoruz
-
   return (
     <Router>
-      <Switch>    
+      <Switch>
         <Route exact path="/" component={Homepage} />
-        <Route 
-          path="/siparis" 
-          render={(props) => <SiparisFormu {...props} setPizzaData={setPizzaData} />} 
-        />
-        <Route path="/success" render={(props) => <Success {...props} pizzaData={pizzaData} />} />
+        <Route path="/siparis" component={SiparisFormu} />
+        <Route path="/success" component={Success} />
       </Switch>
     </Router>
   );

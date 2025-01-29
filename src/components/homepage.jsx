@@ -4,7 +4,7 @@ import React from 'react';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Redirect, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import Header from './header';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, CardImg, CardImgOverlay, CardText, CardTitle, Button } from 'reactstrap';
 
@@ -145,9 +145,9 @@ const Homepage = () => {
 
 
       </div>
-      <footer class="footer">
-        <div class="footer-container">
-          <div class="footer-section">
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-section">
             <img className='logo' src="images\iteration-1-images\logo.svg" alt="" />
             <img src="images\iteration-2-images\footer\icons\icon-1.png" alt="" />
             <span>341 Londonderry Road,Istanbul Turkiye</span><br></br>
@@ -157,7 +157,7 @@ const Homepage = () => {
             <span>+90 555 55 55 55</span>
           </div>
 
-          <div class="footer-section">
+          <div className="footer-section">
             <h3>Sıccacık Menüler</h3>
             <p>5 Kişilik Pepperoni Pizza</p>
             <p>Sucuklu Pizza</p>
@@ -166,9 +166,9 @@ const Homepage = () => {
             <p>Beyaz Console Frosty</p>
           </div>
 
-          <div class="footer-section">
+          <div className="footer-section">
             <h3 style={{ textAlign: 'left' }}>Instagram</h3>
-            <div class="instagram">
+            <div className="instagram">
               <img src="images\iteration-2-images\footer\insta\li-0.png" alt="" />
               <img src="images\iteration-2-images\footer\insta\li-1.png" alt="" />
               <img src="images\iteration-2-images\footer\insta\li-2.png" alt="" />
@@ -179,10 +179,10 @@ const Homepage = () => {
           </div>
         </div>
         <hr></hr>
-        <div class="footer-bottom">
+        <div className="footer-bottom">
           <p>&copy; 2023 Teknolojik Yemekler </p>
 
-          <i class="fa-brands fa-twitter"></i>
+          <i className="fa-brands fa-twitter"></i>
         </div>
       </footer>
 
